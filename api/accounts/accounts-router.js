@@ -17,12 +17,17 @@ router.post('/', midWare.checkAccountNameUnique, midWare.checkAccountPayload, (r
   }).then(acct => res.status(201).json(...acct))
 })
 
-router.put('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.put('/:id', midWare.checkAccountId, midWare.checkAccountPayload, (req, res, next) => {
+  const { id } = req.params;
+  const { body } = req;
+  accounts.updateById(id, body).then(acctUpdate => res.status(200).json(...acctUpdate))
 });
 
-router.delete('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.delete('/:id', midWare.checkAccountId, (req, res, next) => {
+  accounts.getById(req.params.id).then(acct => {
+    accounts.deleteById(acct.id)
+    .then(delAcct => res.status(200).json(...delAcct))
+  })
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line

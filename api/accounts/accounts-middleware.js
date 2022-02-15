@@ -25,7 +25,8 @@ exports.checkAccountPayload = (req, res, next) => {
 exports.checkAccountNameUnique = (req, res, next) => {
   const { name } = req.body
   accounts.getAll().then(allAccts => {
-    allAccts.forEach(acct => {if(acct.name.trim() === name.trim()) 
+    allAccts.forEach(acct => {
+      if(acct.name.trim() === name?.trim())
       return res.status(400).json({message: "that name is taken"})
     })
     next()

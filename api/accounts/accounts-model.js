@@ -15,11 +15,21 @@ const create = account => {
 }
 
 const updateById = (id, account) => {
-  // DO YOUR MAGIC
+  return db('accounts')
+  .where({id: id})
+  .update({
+    name: account.name.trim(),
+    budget: account.budget
+  })
+  .then(acct => {
+    return getById(id)
+  })
 }
 
 const deleteById = id => {
-  // DO YOUR MAGIC
+  return db('accounts')
+  .where({id: id})
+  .del()
 }
 
 module.exports = {
